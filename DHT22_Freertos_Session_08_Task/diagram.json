@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "author": "Student 3",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": 57.9,
+      "left": -101.4,
+      "attrs": { "temperature": "30.7", "humidity": "54.5" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 291.95,
+      "left": -105.6,
+      "attrs": { "value": "10000" }
+    },
+    { "type": "wokwi-led", "id": "led1", "top": 73.2, "left": 138.2, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 157.55,
+      "left": 172.8,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "dht1:VCC", "esp:3V3", "red", [ "v9.6", "h-57.6", "v-153.6" ] ],
+    [ "dht1:GND", "esp:GND.1", "black", [ "v0", "h48", "v-19.2" ] ],
+    [ "dht1:SDA", "esp:4", "green", [ "v57.6", "h230.5", "v-9.6" ] ],
+    [ "r1:1", "dht1:VCC", "green", [ "h-9.6", "v-28.8", "h28.8" ] ],
+    [ "r1:2", "dht1:SDA", "green", [ "h8.4", "v-28.8", "h-38.4", "v-96" ] ],
+    [ "led1:C", "esp:GND.2", "green", [ "v0" ] ],
+    [ "esp:2", "r2:1", "green", [ "h0" ] ],
+    [ "r2:2", "led1:A", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
