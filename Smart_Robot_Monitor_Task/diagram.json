@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "author": "Student 3",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht1", "top": -28.5, "left": -168.6, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": 97.5, "left": -407.3, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -3.6,
+      "left": -533.8,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 253.55,
+      "left": -393.6,
+      "attrs": { "value": "1000" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "dht1:SDA", "esp:15", "green", [ "v19.2", "h38.5", "v-47.82" ] ],
+    [
+      "esp:3V3.1",
+      "dht1:VCC",
+      "green",
+      [ "v-9.78", "h-101.08", "v-67.2", "h-86.4", "v144", "h19.2" ]
+    ],
+    [ "esp:GND.2", "dht1:GND", "black", [ "v-96.18", "h-302.63", "v182.4", "h96" ] ],
+    [ "esp:5V", "ultrasonic1:VCC", "red", [ "h0" ] ],
+    [ "esp:GND.1", "ultrasonic1:GND", "black", [ "h0" ] ],
+    [ "esp:5", "ultrasonic1:TRIG", "green", [ "h-91.48", "v134.22", "h-239.6" ] ],
+    [ "ultrasonic1:ECHO", "esp:6", "green", [ "v0", "h248.8", "v-105.6" ] ],
+    [ "led1:A", "esp:7", "green", [ "v0" ] ],
+    [ "led1:C", "r1:1", "green", [ "v0" ] ],
+    [ "esp:GND.1", "r1:2", "black", [ "h-14.68", "v28.62" ] ]
+  ],
+  "dependencies": {}
+}
