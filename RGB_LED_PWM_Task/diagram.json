@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "author": "Student 3",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": { "env": "micropython-20231227-v1.22.0", "flashSize": "8" }
+    },
+    { "type": "wokwi-rgb-led", "id": "rgb1", "top": -53.6, "left": -219.7, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -205.2,
+      "left": -313,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo1",
+      "top": 131.6,
+      "left": -525.2,
+      "rotate": 180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad1",
+      "top": -299.6,
+      "left": 120.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text1",
+      "top": -364.8,
+      "left": 124.8,
+      "attrs": { "text": "Enter angle between 0 - 180\nPress digits then '#' to confirm" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "rgb1:R", "esp:4", "green", [ "v0" ] ],
+    [ "rgb1:G", "esp:5", "green", [ "v0" ] ],
+    [ "rgb1:B", "esp:6", "green", [ "v0" ] ],
+    [ "esp:5V", "rgb1:COM", "red", [ "h0" ] ],
+    [ "led1:A", "esp:7", "green", [ "v0" ] ],
+    [ "led1:C", "esp:GND.1", "green", [ "v0" ] ],
+    [ "servo1:V+", "esp:5V", "red", [ "h345.6", "v28.7", "h14.68" ] ],
+    [ "servo1:PWM", "esp:9", "orange", [ "h297.6", "v-19.22" ] ],
+    [ "servo1:GND", "esp:GND.1", "#8f4814", [ "h19.2", "v48", "h341.08" ] ],
+    [ "keypad1:R1", "esp:10", "green", [ "v0" ] ],
+    [ "keypad1:R2", "esp:11", "green", [ "v0" ] ],
+    [ "keypad1:R3", "esp:12", "green", [ "v0" ] ],
+    [ "keypad1:R4", "esp:13", "green", [ "v0" ] ],
+    [ "keypad1:C1", "esp:14", "green", [ "v0" ] ],
+    [ "keypad1:C2", "esp:15", "green", [ "v0" ] ],
+    [ "keypad1:C3", "esp:16", "green", [ "v0" ] ],
+    [ "keypad1:C4", "esp:17", "green", [ "v-9.6", "h-297.9" ] ]
+  ],
+  "dependencies": {}
+}
