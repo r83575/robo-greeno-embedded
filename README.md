@@ -16,6 +16,7 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 | Session 08 | DHT22 FreeRTOS Monitoring | [Open](./session-08-dht22-freertos/README.md) |
 | Session 09 | Arduino IoT Cloud | [Open](./session-09-arduino-iot-cloud/README.md) |
 | Session 10 | BLE Distance Monitor | [Open](./session-10-ble-distance-monitor/README.md) |
+| Session 11 | WiFi HTTP GET and POST | [Open](./session-11-wifi-http/README.md) |
 
 ---
 
@@ -37,6 +38,9 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 - BLE
 - Bluetooth Low Energy
 - HC-SR04
+- HTTP
+- REST API
+- ArduinoJson
 
 ---
 
