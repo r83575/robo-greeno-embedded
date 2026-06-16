@@ -3,6 +3,9 @@
 Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, PlatformIO and Wokwi.
 
 ---
+## Featured Project
+
+### Month 1 Mini Project — Smart Security Monitor [Open Project](./mini-project/README.md)
 
 ## Sessions
 
@@ -24,6 +27,7 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 
 - ESP32
 - ESP32-S3
+- ESP32-C5
 - MicroPython
 - Arduino Framework
 - FreeRTOS
@@ -38,6 +42,7 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 - BLE
 - Bluetooth Low Energy
 - HC-SR04
+- DHT22
 - HTTP
 - REST API
 - ArduinoJson
@@ -51,6 +56,24 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 - Wokwi Simulator
 - Git
 - GitHub
+- Arduino IoT Cloud
+
+---
+
+## Main Mini Project
+
+### Smart Security Monitor
+
+Features:
+
+- HC-SR04 intruder detection
+- DHT22 temperature monitoring
+- 3-state security state machine
+- FreeRTOS multi-task architecture
+- Arduino Cloud integration
+- HTTP POST telemetry
+- Wokwi simulation support
+- ESP32-C5 hardware support
 
 ---
 
