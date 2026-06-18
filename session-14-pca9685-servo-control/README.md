@@ -74,6 +74,14 @@ README.md
 
 ---
 
+## Demo Videos
+
+See the demonstration videos here:
+
+[Demo Videos](./demo_videos.md)
+
+---
+
 ## Notes
 
 The original assignment required controlling three servos.
