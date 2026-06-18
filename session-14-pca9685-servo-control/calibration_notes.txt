@@ -1,0 +1,7 @@
+Servo model: MG996R
+Channels used: 0, 1
+Min pulse: 500 us
+Max pulse: 2500 us
+Actual range achieved: 0-180 degrees
+Calibration successful.
+Note: Homework completed with 2 servos because only 2 were available.
