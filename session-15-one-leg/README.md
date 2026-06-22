@@ -17,6 +17,9 @@ This session introduces the mechanical structure of a hexapod leg (Hip, Femur an
 - Named leg positions
 - Smooth interpolation between positions
 - Continuous step cycle
+- Custom leg positions
+- Keyboard-controlled leg movement
+- Step cycle performance measurement
 - Browser-based leg simulator
 
 ---
@@ -49,7 +52,9 @@ This session introduces the mechanical structure of a hexapod leg (Hip, Femur an
 | LIFT | (90, 30, 90) |
 | EXTEND | (135, 60, 120) |
 | RETRACT | (45, 60, 120) |
-
+| CROUCH | (90, 110, 140) |
+| HIGH_LIFT | (90, 20, 80) |
+| FORWARD_LOW | (130, 80, 130) |
 ---
 
 ## Files
@@ -58,6 +63,8 @@ This session introduces the mechanical structure of a hexapod leg (Hip, Femur an
 |---|---|
 | `leg.py` | `HexLeg` class with reusable servo control methods |
 | `main.py` | Demonstration of one-leg movement and continuous step cycle |
+| `keyboard_control.py` | Interactive keyboard control for manual leg movement |
+| `custom_positions.md` | Documentation of additional custom leg positions |
 | `hexleg_simulator.html` | Interactive browser simulator for visualizing leg positions and commands |
 | `README.md` | Session documentation |
 
@@ -73,6 +80,7 @@ This session introduces the mechanical structure of a hexapod leg (Hip, Femur an
 - HTML
 - CSS
 - JavaScript
+- Object-Oriented Programming (OOP)
 
 ---
 
