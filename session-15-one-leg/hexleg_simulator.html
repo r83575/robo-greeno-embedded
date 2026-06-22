@@ -1,0 +1,870 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Session 15 - Hexapod Leg Command Simulator</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --line: #38bdf8;
+      --joint: #facc15;
+      --foot: #5688f3;
+      --danger: #fb7185;
+      --ok: #a7f3d0;
+      --card: #020617;
+      --accent: #818cf8;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #020617, #0f172a 55%, #111827);
+      color: var(--text);
+    }
+
+    header {
+      padding: 26px 18px 12px;
+      text-align: center
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 46px)
+    }
+
+    header p {
+      margin: 10px auto 0;
+      max-width: 880px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.45
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(17, 24, 39, .92);
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+    }
+
+    .visual {
+      min-height: 590px
+    }
+
+    svg {
+      width: 100%;
+      height: 500px;
+      background: radial-gradient(circle at 50% 35%, #1e293b, #020617 70%);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, .18)
+    }
+
+    .gridline {
+      stroke: #334155;
+      stroke-width: 1;
+      opacity: .65
+    }
+
+    .axis {
+      stroke: #64748b;
+      stroke-width: 1.5
+    }
+
+    .leg {
+      stroke: var(--line);
+      stroke-width: 18;
+      stroke-linecap: round;
+      fill: none;
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, .35))
+    }
+
+    .leg2 {
+      stroke: #22d3ee;
+      stroke-width: 12;
+      stroke-linecap: round;
+      fill: none
+    }
+
+    .joint {
+      fill: var(--joint);
+      stroke: #111827;
+      stroke-width: 4
+    }
+
+    .hip-joint {
+      fill: #facc15;
+      stroke: #111827;
+      stroke-width: 4;
+    }
+
+    .femur-joint {
+      fill: #fb923c;
+      stroke: #111827;
+      stroke-width: 4;
+    }
+
+    .tibia-joint {
+      fill: #34d399;
+      stroke: #111827;
+      stroke-width: 4;
+    }
+
+    #hipLabel {
+      fill: #facc15;
+    }
+
+    #kneeLabel {
+      fill: #fb923c;
+    }
+
+    #ankleLabel {
+      fill: #34d399;
+    }
+
+    #footLabel {
+      fill: #5688f3;
+    }
+
+    .foot {
+      fill: var(--foot);
+      stroke: #052e2b;
+      stroke-width: 4
+    }
+
+    .label {
+      fill: #e5e7eb;
+      font-size: 14px;
+      font-weight: bold
+    }
+
+    .small {
+      fill: #cbd5e1;
+      font-size: 12px
+    }
+
+    .panel-title {
+      margin: 0 0 12px;
+      font-size: 20px
+    }
+
+    .row {
+      margin: 13px 0
+    }
+
+    .row label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      color: #d1d5db
+    }
+
+    .hip-label {
+      color: #facc15;
+      font-weight: bold;
+    }
+
+    .femur-label {
+      color: #fb923c;
+      font-weight: bold;
+    }
+
+    .tibia-label {
+      color: #34d399;
+      font-weight: bold;
+    }
+
+    input[type=range] {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      appearance: none;
+      -webkit-appearance: none;
+      background: #555;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 8px;
+      border-radius: 999px;
+      background: transparent;
+    }
+
+    .hip-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #facc15;
+      border: 2px solid #111827;
+      margin-top: -5px;
+      cursor: pointer;
+    }
+
+    .femur-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fb923c;
+      border: 2px solid #111827;
+      margin-top: -5px;
+      cursor: pointer;
+    }
+
+    .tibia-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #34d399;
+      border: 2px solid #111827;
+      margin-top: -5px;
+      cursor: pointer;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin: 14px 0
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 9px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .15s transform, .15s opacity;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: .95
+    }
+
+    button.secondary {
+      background: #334155
+    }
+
+    button.green {
+      background: #059669
+    }
+
+    button.purple {
+      background: #7c3aed
+    }
+
+    button.red {
+      background: #be123c
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 82px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 12px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+      line-height: 1.45;
+      outline: none;
+    }
+
+    .code {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: Consolas, Monaco, monospace;
+      color: #a7f3d0;
+      white-space: pre-wrap;
+      line-height: 1.45;
+    }
+
+    .hint,
+    .status {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-top: 8px
+    }
+
+    .status.ok {
+      color: var(--ok)
+    }
+
+    .status.err {
+      color: var(--danger)
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .info div {
+      background: rgba(2, 6, 23, .55);
+      border: 1px solid rgba(148, 163, 184, .14);
+      border-radius: 12px;
+      padding: 10px;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.4
+    }
+
+    .mono {
+      font-family: Consolas, Monaco, monospace
+    }
+
+    .lesson-note {
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      background: rgba(14, 165, 233, .10);
+      border: 1px solid rgba(56, 189, 248, .28);
+      border-radius: 12px;
+      color: #dbeafe;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .preset-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .preset-table th,
+    .preset-table td {
+      border: 1px solid rgba(148, 163, 184, .18);
+      padding: 8px 9px;
+      text-align: left;
+    }
+
+    .preset-table th {
+      background: rgba(15, 23, 42, .9);
+      color: #e0f2fe
+    }
+
+    .preset-table td {
+      background: rgba(2, 6, 23, .45);
+      color: #cbd5e1
+    }
+
+    .console {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 120px;
+      max-height: 210px;
+      overflow: auto;
+      font-family: Consolas, Monaco, monospace;
+      color: #c7d2fe;
+      white-space: pre-wrap;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    @keyframes pulseFoot {
+
+      0%,
+      100% {
+        opacity: .45
+      }
+
+      50% {
+        opacity: 1
+      }
+    }
+
+    .bottom-wrap {
+      max-width: 1200px;
+      margin: 0 auto 28px;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .bottom-card {
+      background: rgba(17, 24, 39, .92);
+      border: 1px solid rgba(148, 163, 184, .18);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+    }
+
+    @media(max-width:900px) {
+      .bottom-wrap {
+        grid-template-columns: 1fr
+      }
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      margin: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Hexapod Leg Command Simulator</h1>
+    <p>
+      A browser simulation of one 3-DOF hexapod robot leg. Write a Python-style command,
+      run it, and see how the Hip, Femur, and Tibia joints move visually.
+    </p>
+  </header>
+
+  <main class="wrap">
+    <section class="card visual">
+      <h2 class="panel-title">Visual Leg Model</h2>
+      <svg id="scene" viewBox="0 0 760 500" aria-label="Hexapod leg simulator">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#64748b"></path>
+          </marker>
+        </defs>
+
+        <g id="grid"></g>
+        <line x1="80" y1="390" x2="700" y2="390" class="axis" marker-end="url(#arrow)"></line>
+        <line x1="140" y1="450" x2="140" y2="80" class="axis" marker-end="url(#arrow)"></line>
+        <text x="705" y="386" class="small">X</text>
+        <text x="128" y="75" class="small">Y</text>
+        <text x="92" y="415" class="small">body side</text>
+
+        <polyline id="legWide" class="leg"></polyline>
+        <polyline id="legThin" class="leg2"></polyline>
+
+        <circle id="hipJoint" r="15" class="hip-joint"></circle>
+        <circle id="kneeJoint" r="13" class="femur-joint"></circle>
+        <circle id="ankleJoint" r="13" class="tibia-joint"></circle>
+        <circle id="footTip" r="13" class="foot"></circle>
+
+        <text id="hipLabel" class="label">Hip / Coxa</text>
+        <text id="kneeLabel" class="label">Femur joint</text>
+        <text id="ankleLabel" class="label">Tibia joint</text>
+        <text id="footLabel" class="label">Foot tip</text>
+      </svg>
+
+      <div class="info">
+        <div><b>Hip / Coxa</b><br>Rotates the whole leg forward or backward.</div>
+        <div><b>Femur</b><br>Lifts or lowers the upper leg segment.</div>
+        <div><b>Tibia</b><br>Extends or retracts the lower leg segment.</div>
+        <div><b>3-DOF</b><br>Three degrees of freedom: one servo for each joint.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="panel-title">Controls</h2>
+      <p class="lesson-note">
+        This simulator replaces the physical 3-servo hexapod leg when hardware is unavailable.
+        It connects the Python commands from the lesson to a visual 3-DOF leg movement.
+      </p>
+
+      <div class="row">
+        <label>
+          <span class="hip-label">Hip angle</span>
+          <b><span id="hipVal">90</span>°</b>
+        </label>
+        <input id="hip" class="hip-slider" type="range" min="0" max="180" value="90">
+      </div>
+      <div class="row">
+        <label>
+          <span class="femur-label">Femur angle</span>
+          <b><span id="femurVal">90</span>°</b>
+        </label>
+        <input id="femur" class="femur-slider" type="range" min="0" max="180" value="90">
+      </div>
+      <div class="row">
+        <label>
+          <span class="tibia-label">Tibia angle</span>
+          <b><span id="tibiaVal">90</span>°</b>
+        </label>
+        <input id="tibia" class="tibia-slider" type="range" min="30" max="150" value="90">
+      </div>
+
+      <div class="buttons">
+        <button onclick="goPreset('HOME')">HOME</button>
+        <button onclick="goPreset('STAND')">STAND</button>
+        <button onclick="goPreset('LIFT')">LIFT</button>
+        <button onclick="goPreset('EXTEND')">EXTEND</button>
+        <button onclick="goPreset('RETRACT')">RETRACT</button>
+        <button class="green" onclick="runStep()">STEP CYCLE</button>
+      </div>
+
+      <h2 class="panel-title">Write a Python Command</h2>
+      <textarea id="commandInput" spellcheck="false">leg0.smooth_to(HexLeg.STAND)</textarea>
+      <div class="buttons">
+        <button class="purple" onclick="runCommand()">RUN COMMAND</button>
+        <button class="secondary" onclick="copyCurrentCommand()">USE CURRENT ANGLES</button>
+        <button class="secondary" onclick="clearConsole()">CLEAR CONSOLE</button>
+      </div>
+      <div id="status" class="status">Supported examples: leg0.move_to((90,60,120)) or leg0.smooth_to(HexLeg.LIFT)</div>
+
+      <h2 class="panel-title">Generated Python Command</h2>
+      <div id="generated" class="code">leg0.move_to((90, 90, 90))</div>
+
+      <p class="hint">
+        Supported preset names:
+        <span class="mono">HOME</span>,
+        <span class="mono">STAND</span>,
+        <span class="mono">LIFT</span>,
+        <span class="mono">EXTEND</span>,
+        <span class="mono">RETRACT</span>.
+        You can also type a direct angle tuple.
+      </p>
+    </section>
+  </main>
+
+  <section class="bottom-wrap">
+    <div class="bottom-card">
+      <h2 class="panel-title">Preset Angle Table</h2>
+      <table class="preset-table" aria-label="Hexapod leg preset angles">
+        <thead>
+          <tr>
+            <th>Preset</th>
+            <th>Hip</th>
+            <th>Femur</th>
+            <th>Tibia</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>HOME</td>
+            <td>90°</td>
+            <td>90°</td>
+            <td>90°</td>
+            <td>Safe neutral position</td>
+          </tr>
+          <tr>
+            <td>STAND</td>
+            <td>90°</td>
+            <td>60°</td>
+            <td>120°</td>
+            <td>Weight-bearing position</td>
+          </tr>
+          <tr>
+            <td>LIFT</td>
+            <td>90°</td>
+            <td>30°</td>
+            <td>90°</td>
+            <td>Foot lifted from the ground</td>
+          </tr>
+          <tr>
+            <td>EXTEND</td>
+            <td>135°</td>
+            <td>60°</td>
+            <td>120°</td>
+            <td>Leg extended forward</td>
+          </tr>
+          <tr>
+            <td>RETRACT</td>
+            <td>45°</td>
+            <td>60°</td>
+            <td>120°</td>
+            <td>Leg pulled backward</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bottom-card">
+      <h2 class="panel-title">Execution Console</h2>
+      <div id="consoleBox" class="console">Console ready.
+        Type a command and press RUN COMMAND.</div>
+    </div>
+  </section>
+  <footer>Educational simulation created for Session 15 &nbsp;|&nbsp; Hexapod Leg Manual Control.</footer>
+
+  <script>
+    const hip = document.getElementById('hip');
+    const femur = document.getElementById('femur');
+    const tibia = document.getElementById('tibia');
+    const hipVal = document.getElementById('hipVal');
+    const femurVal = document.getElementById('femurVal');
+    const tibiaVal = document.getElementById('tibiaVal');
+    const generated = document.getElementById('generated');
+    const commandInput = document.getElementById('commandInput');
+    const statusBox = document.getElementById('status');
+    const consoleBox = document.getElementById('consoleBox');
+
+    const legWide = document.getElementById('legWide');
+    const legThin = document.getElementById('legThin');
+    const hipJoint = document.getElementById('hipJoint');
+    const kneeJoint = document.getElementById('kneeJoint');
+    const ankleJoint = document.getElementById('ankleJoint');
+    const footTip = document.getElementById('footTip');
+    const hipLabel = document.getElementById('hipLabel');
+    const kneeLabel = document.getElementById('kneeLabel');
+    const ankleLabel = document.getElementById('ankleLabel');
+    const footLabel = document.getElementById('footLabel');
+
+    const presets = {
+      HOME: [90, 90, 90],
+      STAND: [90, 60, 120],
+      LIFT: [90, 30, 90],
+      EXTEND: [135, 60, 120],
+      RETRACT: [45, 60, 120]
+    };
+
+    let activeTimer = null;
+
+    function updateSliderColors() {
+
+      paintSlider(hip, "#facc15");
+      paintSlider(femur, "#fb923c");
+      paintSlider(tibia, "#34d399");
+
+    }
+
+    function paintSlider(slider, color) {
+
+      const min = Number(slider.min);
+      const max = Number(slider.max);
+      const value = Number(slider.value);
+
+      const percent = ((value - min) / (max - min)) * 100;
+
+      slider.style.background =
+        `linear-gradient(to right,
+        ${color} 0%,
+        ${color} ${percent}%,
+        #555 ${percent}%,
+        #555 100%)`;
+
+    }
+
+    function buildGrid() {
+      const grid = document.getElementById('grid');
+      let html = '';
+      for (let x = 80; x <= 700; x += 40) html += `<line x1="${x}" y1="70" x2="${x}" y2="450" class="gridline"></line>`;
+      for (let y = 70; y <= 450; y += 40) html += `<line x1="80" y1="${y}" x2="700" y2="${y}" class="gridline"></line>`;
+      grid.innerHTML = html;
+    }
+
+    function currentAngles() {
+      return [Number(hip.value), Number(femur.value), Number(tibia.value)];
+    }
+
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
+
+    function anglesToPoints(h, f, t) {
+      const base = { x: 150, y: 260 };
+      const coxaLen = 95;
+      const femurLen = 135;
+      const tibiaLen = 150;
+
+      const hipRad = (h - 90) * Math.PI / 180;
+      const p1 = {
+        x: base.x + Math.cos(hipRad) * coxaLen,
+        y: base.y + Math.sin(hipRad) * 45
+      };
+
+      const femurRad = (f - 90) * Math.PI / 180;
+      const p2 = {
+        x: p1.x + Math.cos(femurRad) * femurLen,
+        y: p1.y + Math.sin(femurRad) * femurLen
+      };
+
+      const tibiaRad = femurRad + (t - 90) * Math.PI / 180;
+      const p3 = {
+        x: p2.x + Math.cos(tibiaRad) * tibiaLen,
+        y: p2.y + Math.sin(tibiaRad) * tibiaLen
+      };
+
+      return [base, p1, p2, p3];
+    }
+
+    function setCircle(circle, p) {
+      circle.setAttribute('cx', p.x);
+      circle.setAttribute('cy', p.y);
+    }
+
+    function setText(text, p, dx, dy) {
+      text.setAttribute('x', p.x + dx);
+      text.setAttribute('y', p.y + dy);
+    }
+
+    function setAngles(arr, updateCommand = true) {
+      hip.value = clamp(Math.round(arr[0]), 0, 180);
+      femur.value = clamp(Math.round(arr[1]), 0, 180);
+      tibia.value = clamp(Math.round(arr[2]), 30, 150);
+      update(updateCommand);
+    }
+
+    function update(updateCommand = true) {
+      const [h, f, t] = currentAngles();
+      hipVal.textContent = h;
+      femurVal.textContent = f;
+      tibiaVal.textContent = t;
+
+      const points = anglesToPoints(h, f, t);
+      const pointString = points.map(p => `${p.x},${p.y}`).join(' ');
+      legWide.setAttribute('points', pointString);
+      legThin.setAttribute('points', pointString);
+
+      setCircle(hipJoint, points[0]);
+      setCircle(kneeJoint, points[1]);
+      setCircle(ankleJoint, points[2]);
+      setCircle(footTip, points[3]);
+
+      setText(hipLabel, points[0], -40, -22);
+      setText(kneeLabel, points[1], 10, -16);
+      setText(ankleLabel, points[2], 10, -16);
+      setText(footLabel, points[3], 12, 24);
+
+      if (updateCommand) {
+        generated.textContent = `leg0.move_to((${h}, ${f}, ${t}))`;
+      }
+      updateSliderColors();
+    }
+
+    function animateTo(target, steps = 28, delay = 12, onDone = null) {
+      if (activeTimer) clearInterval(activeTimer);
+      const start = currentAngles();
+      let i = 0;
+      activeTimer = setInterval(() => {
+        i++;
+        const next = start.map((v, idx) => Math.round(v + (target[idx] - v) * i / steps));
+        setAngles(next);
+        if (i >= steps) {
+          clearInterval(activeTimer);
+          activeTimer = null;
+          if (typeof onDone === 'function') onDone();
+        }
+      }, delay);
+    }
+
+    function goPreset(name) {
+      commandInput.value = `leg0.smooth_to(HexLeg.${name})`;
+      showStatus(`Running preset ${name}`, true);
+      logConsole(`Executing preset ${name}: ${describeTarget(presets[name])}`);
+      animateTo(presets[name], 28, 10, () => logConsole('Done. Preset movement completed.'));
+    }
+
+    function runStep() {
+      const sequence = ['STAND', 'LIFT', 'EXTEND', 'STAND', 'RETRACT', 'STAND', 'HOME'];
+      commandInput.value = "# step cycle: STAND -> LIFT -> EXTEND -> STAND -> RETRACT -> STAND -> HOME";
+      let index = 0;
+      showStatus('Running step cycle', true);
+      logConsole('Executing step cycle: STAND -> LIFT -> EXTEND -> STAND -> RETRACT -> STAND -> HOME');
+      function next() {
+        if (index >= sequence.length) return;
+        animateTo(presets[sequence[index]], 24, 12);
+        index++;
+        setTimeout(next, 520);
+      }
+      next();
+    }
+
+    function parseCommand(text) {
+      const cleaned = text.trim().replace(/\s+/g, ' ');
+      const presetMatch = cleaned.match(/HexLeg\.(HOME|STAND|LIFT|EXTEND|RETRACT)/i);
+      if (presetMatch) {
+        return presets[presetMatch[1].toUpperCase()];
+      }
+
+      const tupleMatch = cleaned.match(/\(\s*\(?\s*(-?\d+)\s*,\s*(-?\d+)\s*,\s*(-?\d+)\s*\)?\s*\)/);
+      if (tupleMatch) {
+        return [Number(tupleMatch[1]), Number(tupleMatch[2]), Number(tupleMatch[3])];
+      }
+
+      throw new Error('Command not recognized.');
+    }
+
+    function runCommand() {
+      try {
+        const target = parseCommand(commandInput.value);
+        if (target[0] < 0 || target[0] > 180 || target[1] < 0 || target[1] > 180 || target[2] < 30 || target[2] > 150) {
+          throw new Error('Angles out of range. Hip/Femur: 0-180, Tibia: 30-150.');
+        }
+        showStatus(`Command accepted: (${target[0]}, ${target[1]}, ${target[2]})`, true);
+        logConsole(`Executing command: ${commandInput.value.trim()}`);
+        logConsole(`Target angles: ${describeTarget(target)}`);
+        if (/smooth_to/i.test(commandInput.value)) {
+          animateTo(target, 30, 10, () => logConsole('Done. Smooth movement completed.'));
+        } else {
+          setAngles(target);
+          logConsole('Done. Direct move completed.');
+        }
+      } catch (err) {
+        showStatus(err.message + ' Try: leg0.move_to((90,60,120))', false);
+        logConsole('ERROR: ' + err.message);
+      }
+    }
+
+    function copyCurrentCommand() {
+      const [h, f, t] = currentAngles();
+      commandInput.value = `leg0.move_to((${h}, ${f}, ${t}))`;
+      showStatus('Current angles copied into the command box.', true);
+      logConsole('Current angles copied into the command box.');
+    }
+
+
+    function logConsole(message) {
+      const time = new Date().toLocaleTimeString();
+      consoleBox.textContent += `\n[${time}] ${message}`;
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    function clearConsole() {
+      consoleBox.textContent = 'Console cleared.';
+      showStatus('Console cleared.', true);
+    }
+
+    function describeTarget(target) {
+      return `Hip=${target[0]}°, Femur=${target[1]}°, Tibia=${target[2]}°`;
+    }
+
+    function showStatus(message, ok) {
+      statusBox.textContent = message;
+      statusBox.className = ok ? 'status ok' : 'status err';
+    }
+
+    [hip, femur, tibia].forEach(input => input.addEventListener('input', () => update(true)));
+    buildGrid();
+    update();
+  </script>
+</body>
+
+</html>
