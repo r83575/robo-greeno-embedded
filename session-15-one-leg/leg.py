@@ -8,6 +8,11 @@ class HexLeg:
     EXTEND  = (135, 60, 120)
     RETRACT = (45, 60, 120)
 
+    # Custom positions
+    CROUCH      = (90, 110, 140)
+    HIGH_LIFT   = (90, 20, 80)
+    FORWARD_LOW = (130, 80, 130)
+
     def __init__(self, kit, hip_ch, fem_ch, tib_ch):
         self.kit = kit
         self.channels = (hip_ch, fem_ch, tib_ch)
