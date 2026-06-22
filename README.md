@@ -20,6 +20,7 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 | Session 09 | Arduino IoT Cloud | [Open](./session-09-arduino-iot-cloud/README.md) |
 | Session 10 | BLE Distance Monitor | [Open](./session-10-ble-distance-monitor/README.md) |
 | Session 11 | WiFi HTTP GET and POST | [Open](./session-11-wifi-http/README.md) |
+| Session 13 | Raspberry Pi Python GPIO | [Open](./session-13-rpi-gpio/README.md) |
 | Session 14 | PCA9685 Servo Control | [Open](./session-14-pca9685-servo-control/README.md) |
 
 ---
@@ -47,6 +48,10 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 - HTTP
 - REST API
 - ArduinoJson
+- Raspberry Pi 3
+- Raspberry Pi OS
+- Python 3
+- RPi.GPIO
 
 ---
 
