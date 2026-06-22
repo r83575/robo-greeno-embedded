@@ -23,6 +23,7 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 | Session 13 | Raspberry Pi Python GPIO | [Open](./session-13-rpi-gpio/README.md) |
 | Session 14 | PCA9685 Servo Control | [Open](./session-14-pca9685-servo-control/README.md) |
 | Session 15 | One Leg Manual Control | [Open](./session-15-one-leg/README.md) |
+| Session 16 | Raspberry Pi ESP32 UART Bridge | [Open](./session-16-uart-bridge/README.md) |
 
 ---
 
@@ -51,11 +52,14 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 - ArduinoJson
 - Raspberry Pi 3
 - Raspberry Pi OS
+- Raspberry Pi GPIO
 - RPi.GPIO
 - PCA9685
 - Servo Motors
 - ServoKit
 - I2C
+- pySerial
+- HardwareSerial
 
 ---
 
