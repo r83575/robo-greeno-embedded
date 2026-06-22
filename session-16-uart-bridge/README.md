@@ -69,9 +69,37 @@ ESP32-C5
 | File | Description |
 |---|---|
 | `rpi_uart_sender.py` | Raspberry Pi UART sender using pySerial |
+| `rpi_uart_1000_test.py` | UART reliability test that sends 1000 messages and measures communication success |
 | `esp32_uart_receiver.ino` | ESP32 UART receiver, CSV parser and JSON acknowledgement |
 | `wiring_diagram.txt` | UART wiring reference |
+| `demo/` | Demonstration video showing successful two-way UART communication |
 | `README.md` | Session documentation |
+
+---
+
+## Bonus Tasks
+
+### Error Handling
+
+If the received UART message does not contain exactly 18 joint angles, the ESP32 returns:
+
+```json
+{"status":"ERROR","reason":"bad_format"}
+```
+
+### UART Reliability Test
+
+A stress test was performed by transmitting **1000** UART messages from the Raspberry Pi to the ESP32.
+
+Result:
+
+- Messages Sent: **1000**
+- Messages Received: **1000**
+- Success Rate: **100%**
+
+### Demonstration
+
+A video recording of the successful two-way UART communication is included in the `demo/` directory.
 
 ---
 
