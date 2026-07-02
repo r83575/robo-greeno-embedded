@@ -1,0 +1,16 @@
+name,x_cm,y_cm,z_cm,reachable,hip_ik_deg,femur_ik_deg,tibia_ik_deg,hip_servo_deg,femur_servo_deg,tibia_servo_deg,note
+HOME,12.5,0.0,-8.0,True,0.0,-23.402,70.529,90.0,66.598,30.0,ok
+STAND,12.5,0.0,-10.0,True,0.0,-11.527,79.436,90.0,78.473,30.0,ok
+LIFT,12.5,0.0,-4.0,True,0.0,-48.672,57.769,90.0,41.328,32.231,ok
+EXTEND,17.0,0.0,-8.0,True,0.0,-17.072,97.241,90.0,72.928,30.0,ok
+RETRACT,8.5,0.0,-8.0,True,0.0,-20.61,53.13,90.0,69.39,36.87,ok
+FORWARD_LEFT,14.0,3.0,-8.0,True,12.095,-21.891,80.324,102.095,68.109,30.0,ok
+FORWARD_RIGHT,14.0,-3.0,-8.0,True,-12.095,-21.891,80.324,77.905,68.109,30.0,ok
+HIGH_FORWARD,16.0,0.0,-5.0,True,0.0,-35.136,81.192,90.0,54.864,30.0,ok
+LOW_CLOSE,9.0,2.0,-11.0,True,12.529,-3.137,71.073,102.529,86.863,30.0,ok
+SIDE_STEP,12.0,5.0,-8.0,True,22.62,-23.135,73.105,112.62,66.865,30.0,ok
+UNREACH_FAR,30.0,0.0,-30.0,False,,,,,,,unreachable
+UNREACH_TOO_FAR_X,40.0,0.0,-8.0,False,,,,,,,unreachable
+UNREACH_TOO_HIGH,1.0,0.0,0.0,False,,,,,,,unreachable
+UNREACH_TOO_CLOSE,2.5,0.0,0.0,False,,,,,,,unreachable
+UNREACH_FAR_SIDE,0.0,35.0,-10.0,False,,,,,,,unreachable

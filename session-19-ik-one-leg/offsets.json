@@ -1,0 +1,40 @@
+{
+  "description": "Session 19 servo calibration file. Update these values after testing the real leg.",
+  "units": "degrees",
+  "geometry_cm": {
+    "L1_coxa": 2.5,
+    "L2_femur": 10.0,
+    "L3_tibia": 12.0
+  },
+  "servo_offsets": {
+    "hip": 90,
+    "femur": 90,
+    "tibia": 90
+  },
+  "servo_directions": {
+    "hip": 1,
+    "femur": 1,
+    "tibia": -1
+  },
+  "servo_limits": {
+    "hip": [
+      0,
+      180
+    ],
+    "femur": [
+      0,
+      180
+    ],
+    "tibia": [
+      30,
+      150
+    ]
+  },
+  "notes": [
+    "Set all servos to 90 degrees first.",
+    "Adjust hip until the leg points sideways from the body.",
+    "Adjust femur until the upper leg is horizontal.",
+    "Adjust tibia direction/sign if the knee bends the wrong way.",
+    "Do not hardcode final calibration values in Python; keep them here."
+  ]
+}
