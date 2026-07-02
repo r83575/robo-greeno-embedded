@@ -61,8 +61,6 @@ The project also includes hardware verification using three servo motors connect
 
 ---
 
----
-
 ## Demonstration
 
 ### IK Solver Output
@@ -85,6 +83,7 @@ The project also includes hardware verification using three servo motors connect
 
 ## Files
 
+```text
 session-19-ik-one-leg/
 ├── README.md
 ├── ik_solver.py
@@ -93,10 +92,11 @@ session-19-ik-one-leg/
 ├── servo_test.py
 ├── hardware_test.py
 ├── ik_hardware_test.py
-├── screenshots/
-│   ├── ik_solver_output.png
-│   ├── hardware_test.png
-│   └── ik_hardware_test.png
+└── screenshots/
+    ├── ik_solver_output.png
+    ├── hardware_test.png
+    └── ik_hardware_test.png
+```
 
 ---
 
