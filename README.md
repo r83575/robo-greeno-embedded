@@ -26,6 +26,7 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 | Session 16 | Raspberry Pi ESP32 UART Bridge | [Open](./session-16-uart-bridge/README.md) |
 | Session 17 | JSON UART Protocol | [Open](./session-17-json-protocol/README.md) |
 | Session 18 | Sensor Pipeline | [Open](./session-18-sensor-pipeline/README.md) |
+| Session 19 | One Leg Inverse Kinematics | [Open](./session-19-ik-one-leg/README.md) |
 
 ---
 
@@ -60,6 +61,9 @@ Embedded systems mentoring projects using ESP32, FreeRTOS, MicroPython, Platform
 - PCA9685
 - Servo Motors
 - ServoKit
+- NumPy
+- Inverse Kinematics (IK)
+- Trigonometry
 - I2C
 - pySerial
 - HardwareSerial
